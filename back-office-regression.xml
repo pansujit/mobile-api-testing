@@ -1,0 +1,15 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="backend_regression">
+
+
+    <test name="booking-services">
+        <classes>
+            
+            <class name="com.pitechplus.rcim.backofficetests.booking.CreateBookingTests"/>
+            <class name="com.pitechplus.rcim.backofficetests.booking.CreateBookingTests2"/>
+
+        </classes>
+    </test>
+
+</suite>

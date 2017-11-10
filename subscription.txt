@@ -1,0 +1,295 @@
+package com.pitechplus.rcim.backoffice.dto.customizations;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+"form",
+"position",
+"name",
+"fieldType",
+"mandatory",
+"min",
+"max",
+"visible",
+"companyCustomFieldLabels",
+"customFileToValidate",
+"id"
+})
+public class SUBSCRIPTION {
+
+@JsonProperty("form")
+private String form;
+@JsonProperty("position")
+private Integer position;
+@JsonProperty("name")
+private String name;
+@JsonProperty("fieldType")
+private String fieldType;
+@JsonProperty("mandatory")
+private Boolean mandatory;
+@JsonProperty("min")
+private Integer min;
+@JsonProperty("max")
+private Integer max;
+@JsonProperty("visible")
+private Boolean visible;
+@JsonProperty("companyCustomFieldLabels")
+private List<CompanyCustomFieldLabel> companyCustomFieldLabels = null;
+@JsonProperty("customFileToValidate")
+private List<Object> customFileToValidate = null;
+@JsonProperty("id")
+private String id;
+@JsonIgnore
+private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+/**
+* No args constructor for use in serialization
+* 
+*/
+public SUBSCRIPTION() {
+}
+
+/**
+* 
+* @param id
+* @param min
+* @param position
+* @param max
+* @param visible
+* @param form
+* @param fieldType
+* @param companyCustomFieldLabels
+* @param mandatory
+* @param name
+* @param customFileToValidate
+*/
+public SUBSCRIPTION(String form, Integer position, String name, String fieldType, Boolean mandatory, Integer min, Integer max, Boolean visible, List<CompanyCustomFieldLabel> companyCustomFieldLabels, List<Object> customFileToValidate, String id) {
+super();
+this.form = form;
+this.position = position;
+this.name = name;
+this.fieldType = fieldType;
+this.mandatory = mandatory;
+this.min = min;
+this.max = max;
+this.visible = visible;
+this.companyCustomFieldLabels = companyCustomFieldLabels;
+this.customFileToValidate = customFileToValidate;
+this.id = id;
+}
+
+@JsonProperty("form")
+public String getForm() {
+return form;
+}
+
+@JsonProperty("form")
+public void setForm(String form) {
+this.form = form;
+}
+
+public SUBSCRIPTION withForm(String form) {
+this.form = form;
+return this;
+}
+
+@JsonProperty("position")
+public Integer getPosition() {
+return position;
+}
+
+@JsonProperty("position")
+public void setPosition(Integer position) {
+this.position = position;
+}
+
+public SUBSCRIPTION withPosition(Integer position) {
+this.position = position;
+return this;
+}
+
+@JsonProperty("name")
+public String getName() {
+return name;
+}
+
+@JsonProperty("name")
+public void setName(String name) {
+this.name = name;
+}
+
+public SUBSCRIPTION withName(String name) {
+this.name = name;
+return this;
+}
+
+@JsonProperty("fieldType")
+public String getFieldType() {
+return fieldType;
+}
+
+@JsonProperty("fieldType")
+public void setFieldType(String fieldType) {
+this.fieldType = fieldType;
+}
+
+public SUBSCRIPTION withFieldType(String fieldType) {
+this.fieldType = fieldType;
+return this;
+}
+
+@JsonProperty("mandatory")
+public Boolean getMandatory() {
+return mandatory;
+}
+
+@JsonProperty("mandatory")
+public void setMandatory(Boolean mandatory) {
+this.mandatory = mandatory;
+}
+
+public SUBSCRIPTION withMandatory(Boolean mandatory) {
+this.mandatory = mandatory;
+return this;
+}
+
+@JsonProperty("min")
+public Integer getMin() {
+return min;
+}
+
+@JsonProperty("min")
+public void setMin(Integer min) {
+this.min = min;
+}
+
+public SUBSCRIPTION withMin(Integer min) {
+this.min = min;
+return this;
+}
+
+@JsonProperty("max")
+public Integer getMax() {
+return max;
+}
+
+@JsonProperty("max")
+public void setMax(Integer max) {
+this.max = max;
+}
+
+public SUBSCRIPTION withMax(Integer max) {
+this.max = max;
+return this;
+}
+
+@JsonProperty("visible")
+public Boolean getVisible() {
+return visible;
+}
+
+@JsonProperty("visible")
+public void setVisible(Boolean visible) {
+this.visible = visible;
+}
+
+public SUBSCRIPTION withVisible(Boolean visible) {
+this.visible = visible;
+return this;
+}
+
+@JsonProperty("companyCustomFieldLabels")
+public List<CompanyCustomFieldLabel> getCompanyCustomFieldLabels() {
+return companyCustomFieldLabels;
+}
+
+@JsonProperty("companyCustomFieldLabels")
+public void setCompanyCustomFieldLabels(List<CompanyCustomFieldLabel> companyCustomFieldLabels) {
+this.companyCustomFieldLabels = companyCustomFieldLabels;
+}
+
+public SUBSCRIPTION withCompanyCustomFieldLabels(List<CompanyCustomFieldLabel> companyCustomFieldLabels) {
+this.companyCustomFieldLabels = companyCustomFieldLabels;
+return this;
+}
+
+@JsonProperty("customFileToValidate")
+public List<Object> getCustomFileToValidate() {
+return customFileToValidate;
+}
+
+@JsonProperty("customFileToValidate")
+public void setCustomFileToValidate(List<Object> customFileToValidate) {
+this.customFileToValidate = customFileToValidate;
+}
+
+public SUBSCRIPTION withCustomFileToValidate(List<Object> customFileToValidate) {
+this.customFileToValidate = customFileToValidate;
+return this;
+}
+
+@JsonProperty("id")
+public String getId() {
+return id;
+}
+
+@JsonProperty("id")
+public void setId(String id) {
+this.id = id;
+}
+
+public SUBSCRIPTION withId(String id) {
+this.id = id;
+return this;
+}
+
+@JsonAnyGetter
+public Map<String, Object> getAdditionalProperties() {
+return this.additionalProperties;
+}
+
+@JsonAnySetter
+public void setAdditionalProperty(String name, Object value) {
+this.additionalProperties.put(name, value);
+}
+
+public SUBSCRIPTION withAdditionalProperty(String name, Object value) {
+this.additionalProperties.put(name, value);
+return this;
+}
+
+@Override
+public String toString() {
+return new ToStringBuilder(this).append("form", form).append("position", position).append("name", name).append("fieldType", fieldType).append("mandatory", mandatory).append("min", min).append("max", max).append("visible", visible).append("companyCustomFieldLabels", companyCustomFieldLabels).append("customFileToValidate", customFileToValidate).append("id", id).append("additionalProperties", additionalProperties).toString();
+}
+
+@Override
+public int hashCode() {
+return new HashCodeBuilder().append(min).append(position).append(max).append(visible).append(form).append(fieldType).append(companyCustomFieldLabels).append(mandatory).append(id).append(additionalProperties).append(name).append(customFileToValidate).toHashCode();
+}
+
+@Override
+public boolean equals(Object other) {
+if (other == this) {
+return true;
+}
+if ((other instanceof SUBSCRIPTION) == false) {
+return false;
+}
+SUBSCRIPTION rhs = ((SUBSCRIPTION) other);
+return new EqualsBuilder().append(min, rhs.min).append(position, rhs.position).append(max, rhs.max).append(visible, rhs.visible).append(form, rhs.form).append(fieldType, rhs.fieldType).append(companyCustomFieldLabels, rhs.companyCustomFieldLabels).append(mandatory, rhs.mandatory).append(id, rhs.id).append(additionalProperties, rhs.additionalProperties).append(name, rhs.name).append(customFileToValidate, rhs.customFileToValidate).isEquals();
+}
+
+}
