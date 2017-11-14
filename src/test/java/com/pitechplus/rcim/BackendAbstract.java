@@ -5,10 +5,8 @@ import com.pitechplus.qautils.testnglisteners.RetryAnalyzer;
 import com.pitechplus.qautils.testnglisteners.TestLogListener;
 import com.pitechplus.rcim.backoffice.data.RcimTestData;
 import com.pitechplus.rcim.backoffice.service.*;
-import com.pitechplus.rcim.backoffice.utils.CommonUtils;
+
 import com.pitechplus.rcim.mobile.service.MobileService;
-import com.pitechplus.rcim.nissan.be.nissanservices.NissanBeServices;
-import com.pitechplus.rcim.nissan.be.nissanutils.nissanbuilders.NissanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -32,8 +30,6 @@ public abstract class BackendAbstract extends AbstractTestNGSpringContextTests {
     @Value("${bo.super.admin.password}")
     protected String boSuperAdminPassword;
 
-    @Autowired
-    protected NissanBeServices nissanBeServices;
 
     @Autowired
     protected BackUserService backUserService;
@@ -49,10 +45,10 @@ public abstract class BackendAbstract extends AbstractTestNGSpringContextTests {
 
     @Autowired
     protected ParkingService parkingService;
-
+    
     @Autowired
-    protected ReportsService reportsService;
-
+    protected InvoiceService invoiceService;
+    
     @Autowired
     protected SiteService siteService;
 
@@ -65,24 +61,13 @@ public abstract class BackendAbstract extends AbstractTestNGSpringContextTests {
     @Autowired
     protected RcimTestData rcimTestData;
 
-    @Autowired
-    protected NissanUtils nissanUtils;
-    
-    @Autowired
-    protected SmartCardService smartCardService;
-    
+
     @Autowired
     protected ColorService colorService;
-    
-    @Autowired
-    protected VoucherService voucherService;
-    
+
     @Autowired
     protected CustomizationService customizationService;
-    
-    @Autowired
-    protected CommonUtils commonUtils;
-    
+
     @Autowired
     protected MemberService memberService;
     

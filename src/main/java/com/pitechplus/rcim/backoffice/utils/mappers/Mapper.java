@@ -4,7 +4,7 @@ package com.pitechplus.rcim.backoffice.utils.mappers;
 import com.pitechplus.rcim.backoffice.dto.member.CustomMemberDto;
 import com.pitechplus.rcim.backoffice.dto.member.MemberDto;
 import com.pitechplus.rcim.backoffice.dto.supercompany.SuperCompanyDto;
-import com.pitechplus.rcim.nissan.be.nissandata.nissanenums.ReviewStatus;
+import com.pitechplus.rcim.backoffice.data.enums.ReviewStatus;
 import  com.pitechplus.rcim.backoffice.dto.member.*;
 public class Mapper {
 	

@@ -6,6 +6,7 @@ import com.pitechplus.rcim.backoffice.dto.booking.filteredsearch.BookingMetadata
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -19,6 +20,6 @@ import java.util.Set;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BookingResultDto {
 
-    Set<BookingDto> results;
-    BookingMetadataDto metadata;
+    List<BookingDto> results;
+   
 }

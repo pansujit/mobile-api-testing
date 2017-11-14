@@ -7,6 +7,8 @@ import com.pitechplus.rcim.backoffice.data.enums.BookingType;
 import com.pitechplus.rcim.backoffice.dto.booking.filteredsearch.CarSharingInfoDto;
 import com.pitechplus.rcim.backoffice.dto.booking.filteredsearch.DateLocationDto;
 import com.pitechplus.rcim.backoffice.dto.vehicle.VehicleDto;
+import com.pitechplus.rcim.backoffice.dto.vehicle.VehicleDto;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

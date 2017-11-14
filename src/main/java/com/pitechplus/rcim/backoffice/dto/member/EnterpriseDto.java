@@ -1,8 +1,8 @@
 package com.pitechplus.rcim.backoffice.dto.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.pitechplus.rcim.backoffice.data.enums.AccessoryType;
 import com.pitechplus.rcim.backoffice.dto.supercompany.SuperCompanyDto;
-import com.pitechplus.rcim.nissan.be.nissandata.nissanenums.AccountType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -23,7 +23,7 @@ public class EnterpriseDto {
     String city;
     String name;
     String phoneNumber;
-    AccountType accountType;
+    AccessoryType accountType;
     String zipCode;
     String email;
     String country;

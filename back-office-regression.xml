@@ -7,8 +7,21 @@
         <classes>
             
             <class name="com.pitechplus.rcim.backofficetests.booking.CreateBookingTests"/>
-            <class name="com.pitechplus.rcim.backofficetests.booking.CreateBookingTests2"/>
+            <class name="com.pitechplus.rcim.backofficetests.booking.CreateDamageReportTests"/>
+            <class name="com.pitechplus.rcim.backofficetests.booking.ReplaceBookingTests"/>
+            <class name="com.pitechplus.rcim.backofficetests.booking.SearchBookingTests"/>
 
+        </classes>
+    </test>
+        <test name="member-services">
+        <classes>     
+            <class name="com.pitechplus.rcim.backofficetests.members.MemberTest"/>
+        </classes>
+    </test>
+    
+            <test name="invoice-services">
+        <classes>     
+            <class name="com.pitechplus.rcim.backofficetests.invoice.invoiceTest"/>
         </classes>
     </test>
 

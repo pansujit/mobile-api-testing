@@ -6,7 +6,8 @@ import com.pitechplus.rcim.backoffice.constants.ErrorMessages;
 import com.pitechplus.rcim.backoffice.data.enums.DamageReportType;
 import com.pitechplus.rcim.backoffice.data.enums.ServiceCalled;
 import com.pitechplus.rcim.backoffice.dto.backuser.Login;
-import com.pitechplus.rcim.backoffice.dto.report.DamageReportContextDto;
+import com.pitechplus.rcim.backoffice.dto.booking.BookingDto;
+import com.pitechplus.rcim.backoffice.dto.booking.search.BookingResultDto;
 import com.pitechplus.rcim.backoffice.dto.report.DamageReportCreateDto;
 import com.pitechplus.rcim.backoffice.utils.builders.DtoBuilders;
 import com.pitechplus.rcim.backoffice.utils.builders.ValidationErrorsBuilder;
@@ -46,50 +47,40 @@ public class CreateDamageReportTests extends BackendAbstract {
     @BeforeClass
     public void startBooking() {
 
-        bookingId1 = bookingService.createBooking1(rcimTestData.getMemberToken(),
+    	bookingId = bookingService.createBooking1(rcimTestData.getMemberToken(),
                 buildCreateBooking(rcimTestData.getMemberLoginEmail(), rcimTestData.getMemberVehicleId(),
                         rcimTestData.getMemberAutomationParking())).getBody().getId();
-        bookingId=UUID.fromString(bookingId1);
-        mobileService.startBooking(rcimTestData.getMemberToken(), bookingId);
+        //bookingId=UUID.fromString(bookingId1);
+        memberToken=rcimTestData.getMemberToken();
+        bookingService.startBooking(memberToken, bookingId);
+        
     }
 
     @Test(description = "This test verifies that creating Start Damage report works accordingly.")
     @TestInfo(expectedResult = "Start damage report is created with correct details.")
     public void createStartDamageReportTest() {
-       /* List<UUID> fileIds = new ArrayList<>();
+        List<UUID> fileIds = new ArrayList<>();
         for (int i = 0; i < randInt(1, 4); i++) {
-            fileIds.add(configsService.createFile(rcimTestData.getSuperAdminToken(), DtoBuilders.buildFile()).getBody().getId());
+            fileIds.add(configsService.mobileCreateFile(rcimTestData.getMemberToken(), DtoBuilders.buildFile()).getBody().getId());
         }
         DamageReportCreateDto damageReportCreateDto = DtoBuilders.buildDamageReportCreate(DamageReportType.START_BOOKING, fileIds);
-        Boolean serviceResponse = mobileService.createDamageReport(rcimTestData.getMemberToken(), bookingId, damageReportCreateDto).getBody();
+        Boolean serviceResponse = mobileService.createDamageReport(memberToken, bookingId, damageReportCreateDto).getBody();
         assertThat("Damage report not created!", serviceResponse, is(true));
-        /*DamageReportContextDto damageReportContextDto = reportsService.getDamageContextForBooking(rcimTestData.getSuperAdminToken(),
-                bookingId).getBody();
-        assertThat("Created date is not today!", damageReportContextDto.getStartDamageReport().getCreatedDate().
-                contains(LocalDate.now().toString()));
-        assertThat("Start Damage report was not saved correctly!", damageReportContextDto.getStartDamageReport(),
-                is(DtoBuilders.buildExpectedDamageReportDetails(damageReportCreateDto, rcimTestData.getAutomationVehicleId())));*/
     }
 
-   /* @Test(description = "This test verifies that creating End Damage report works accordingly.")
+    @Test(description = "This test verifies that creating End Damage report works accordingly.")
     @TestInfo(expectedResult = "End damage report is created with correct details.")
     public void createEndDamageReportTest() {
         List<UUID> fileIds = new ArrayList<>();
         for (int i = 0; i < randInt(1, 4); i++) {
-            fileIds.add(configsService.createFile(rcimTestData.getSuperAdminToken(), DtoBuilders.buildFile()).getBody().getId());
+            fileIds.add(configsService.mobileCreateFile(rcimTestData.getMemberToken(), DtoBuilders.buildFile()).getBody().getId());
         }
         DamageReportCreateDto damageReportCreateDto = DtoBuilders.buildDamageReportCreate(DamageReportType.END_BOOKING, fileIds);
         Boolean serviceResponse = mobileService.createDamageReport(memberToken, bookingId, damageReportCreateDto).getBody();
         assertThat("Damage report not created!", serviceResponse, is(true));
-        DamageReportContextDto damageReportContextDto = reportsService.getDamageContextForBooking(rcimTestData.getSuperAdminToken(),
-                bookingId).getBody();
-        assertThat("Created date is not today!", damageReportContextDto.getEndDamageReport().getCreatedDate().
-                contains(LocalDate.now().toString()));
-        assertThat("Start Damage report was not saved correctly!", damageReportContextDto.getEndDamageReport(),
-                is(DtoBuilders.buildExpectedDamageReportDetails(damageReportCreateDto, rcimTestData.getAutomationVehicleId())));
     }
 
-    @Test(description = "This test verifies that create damage report call with invalid X-AUTH-TOKEN triggers correct error.")
+    /*@Test(description = "This test verifies that create damage report call with invalid X-AUTH-TOKEN triggers correct error.")
     @TestInfo(expectedResult = "Server responds with 401 Unauthorized with message: " + ErrorMessages.INVALID_AUTHENTICATION_TOKEN)
     public void invalidTokenTest() throws IOException {
         try {
@@ -135,10 +126,13 @@ public class CreateDamageReportTests extends BackendAbstract {
                             null, ValidationErrorsBuilder.buildValidationErrors(ServiceCalled.DAMAGE_CREATE, TYPE_MAY_NOT_BE_NULL,
                                     INTERNAL_CLEANLINESS_MAY_NOT_BE_NULL, EXTERNAL_CLEANLINESS_MAY_NOT_BE_NULL)));
         }
-    }
+    }*/
+    
+
+    
 
     @AfterClass
-    public void cancelBooking() {
-        bookingService.cancelBooking(rcimTestData.getSuperAdminToken(), bookingId.toString());
-    }*/
+    public void finishBooking() {
+        bookingService.finishBooking(memberToken, bookingId,DtoBuilders.finishBooking());
+    }
 }

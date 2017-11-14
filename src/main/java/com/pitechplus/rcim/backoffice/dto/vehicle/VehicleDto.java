@@ -2,6 +2,7 @@ package com.pitechplus.rcim.backoffice.dto.vehicle;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pitechplus.rcim.backoffice.data.enums.*;
+import com.pitechplus.rcim.backoffice.dto.company.ParkingDto;
 import com.pitechplus.rcim.backoffice.dto.supercompany.SuperCompanyDto;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -21,33 +22,20 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class VehicleDto {
-
-    UUID id;
-    String vin;
-    String registrationNumber;
-    String registrationDate;
-    String pictureUrl;
-    TransmissionType transmissionType;
-    FuelType fuelType;
-    FuelLevelDto fuelLevel;
-    Integer mileage;
-    Integer seats;
-    //String version;
-    VehicleVersionDto version;
-    CategoryDto category;
-    CompanyId company;
-    ServiceLevelType serviceLevelType;
-    StatusType statusType;
-    String colorCode;
-    ColorDto color;
-    VehiclePositionDto lastPosition;
-    Set<AccessoryType> accessories;
-    SystemType systemType;
-    DeviceDto device;
-    Boolean ownedByRci;
-    Integer doorsNumber;
-    VehicleType type;
-    UUID registrationDocumentId;
-    VehicleCleanlinessDto cleanliness;
-
+	
+	Set<AccessoryType> accessories;
+	Integer doorsNumber;
+	FuelLevelDto fuelLevel;
+	FuelType fuelType;
+	UUID id;
+	String model;
+	ParkingDto parking;
+	String pictureUrl;
+	String registrationNumber;
+	Integer seats;
+	ServiceLevelType serviceLevel;
+	StatusType statusType;
+	TransmissionType transmissionType;
+    
+    
 }

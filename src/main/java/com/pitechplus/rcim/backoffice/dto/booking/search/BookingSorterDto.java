@@ -13,10 +13,13 @@ import lombok.experimental.FieldDefaults;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Builder
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
-class BookingSorterDto {
+
+public class BookingSorterDto {
 
     BookingProperty property;
     SortDirection direction;

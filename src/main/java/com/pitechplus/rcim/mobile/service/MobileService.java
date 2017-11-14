@@ -4,15 +4,14 @@ import com.pitechplus.qautils.restutils.RestExchangeInfo;
 import com.pitechplus.qautils.restutils.RestTemplateUtils;
 import com.pitechplus.rcim.backoffice.data.enums.ApplicationType;
 import com.pitechplus.rcim.backoffice.dto.backuser.Login;
-import com.pitechplus.rcim.backoffice.dto.booking.BookingDto1;
+import com.pitechplus.rcim.backoffice.dto.booking.BookingDto;
 import com.pitechplus.rcim.backoffice.dto.booking.StartBookingDto;
-import com.pitechplus.rcim.backoffice.dto.booking.search.BookingQueryDto;
-import com.pitechplus.rcim.backoffice.dto.booking.search.BookingQueryDto2;
+
 import com.pitechplus.rcim.backoffice.dto.booking.search.BookingResultDto;
-import com.pitechplus.rcim.backoffice.dto.booking.search.BookingResultDto2;
+import com.pitechplus.rcim.backoffice.dto.booking.search.BookingResultDto;
+import com.pitechplus.rcim.backoffice.dto.member.MemberDto;
 import com.pitechplus.rcim.backoffice.dto.report.DamageReportCreateDto;
 import com.pitechplus.rcim.backoffice.utils.exceptions.BackOfficeException;
-import com.pitechplus.rcim.nissan.be.nissandto.members.MemberDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -31,17 +30,12 @@ public class MobileService {
     @Value("${mobile.auth}")
     private String authUser;
 
-    @Value("${start.booking}")
-    private String startBooking;
+
 
     @Value("${damage.report}")
     private String damageReport;
     
-    @Value("${door.lock}")
-    private String lockDoorVehicleBooking;
-    
-    @Value("${door.unlock}")
-    private String unlockDoorVehicleBooking;
+
     
     @Value("${mobile.booking.search}")
     private String searchBookings;
@@ -67,87 +61,12 @@ public class MobileService {
         return restTemplateUtils.makeExchange(restExchangeInfo, BackOfficeException.class);
     }
 
-    public void startBooking(String xAuthToken, UUID bookingId) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-AUTH-TOKEN", xAuthToken);
-        headers.set("Content-Type", " application/json");
-        headers.set("x-app-origin", ApplicationType.GLIDE_MOBILE.toString());
-        HttpEntity startBookingHttpEntity = new HttpEntity<>(headers);
-        RestExchangeInfo restExchangeInfo = RestExchangeInfo.builder()
-                .requestDescription("Call service: Start booking with id: " + bookingId)
-                .url(gwMobileBaseUrl + startBooking)
-                .httpMethod(HttpMethod.POST)
-                .uriVariables(bookingId)
-                .requestBody(startBookingHttpEntity)
-                .build();
-        restTemplateUtils.makeExchange(restExchangeInfo, BackOfficeException.class);
-    }
+
     
     
-    public ResponseEntity<StartBookingDto> startBooking(String xAuthToken, String bookingId) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-AUTH-TOKEN", xAuthToken);
-        headers.set("Content-Type", " application/json");
-        headers.set("x-app-origin", ApplicationType.GLIDE_MOBILE.toString());
-        HttpEntity startBookingHttpEntity = new HttpEntity<>(headers);
-        RestExchangeInfo restExchangeInfo = RestExchangeInfo.builder()
-                .requestDescription("Call service: Start booking with id: " + bookingId)
-                .url(gwMobileBaseUrl + startBooking)
-                .httpMethod(HttpMethod.POST)
-                .uriVariables(bookingId)
-                .requestBody(startBookingHttpEntity)
-                .response(StartBookingDto.class)
-                .build();
-       return  restTemplateUtils.makeExchange(restExchangeInfo, BackOfficeException.class);
-    }
     
-    public int lockDoorBooking(String xAuthToken, String bookingId) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-AUTH-TOKEN", xAuthToken);
-        headers.set("Content-Type", " application/json");
-        headers.set("x-app-origin", ApplicationType.GLIDE_MOBILE.toString());
-        HttpEntity startBookingHttpEntity = new HttpEntity<>(headers);
-        RestExchangeInfo restExchangeInfo = RestExchangeInfo.builder()
-                .requestDescription("Call service: Locking vehicle of having with id: " + bookingId)
-                .url(gwMobileBaseUrl + lockDoorVehicleBooking)
-                .httpMethod(HttpMethod.POST)
-                .uriVariables(bookingId)
-                .requestBody(startBookingHttpEntity)
-                .build();
-        return restTemplateUtils.makeExchange(restExchangeInfo, BackOfficeException.class).getStatusCodeValue();
-    }
     
-    public int unlockDoorBooking(String xAuthToken, String bookingId) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-AUTH-TOKEN", xAuthToken);
-        headers.set("Content-Type", " application/json");
-        headers.set("x-app-origin", ApplicationType.GLIDE_MOBILE.toString());
-        HttpEntity startBookingHttpEntity = new HttpEntity<>(headers);
-        RestExchangeInfo restExchangeInfo = RestExchangeInfo.builder()
-                .requestDescription("Call service: Locking vehicle of having with id: " + bookingId)
-                .url(gwMobileBaseUrl + unlockDoorVehicleBooking)
-                .httpMethod(HttpMethod.POST)
-                .uriVariables(bookingId)
-                .requestBody(startBookingHttpEntity)
-                .build();
-        return restTemplateUtils.makeExchange(restExchangeInfo, BackOfficeException.class).getStatusCodeValue();
-    }
-    
-    public ResponseEntity<BookingDto1[]> searchBookings(String xAuthToken, BookingQueryDto2 bookingQueryDto) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("X-AUTH-TOKEN", xAuthToken);
-        headers.set("x-app-origin", ApplicationType.GLIDE_MOBILE.toString());
-        HttpEntity<BookingQueryDto2> searchBookingHttpEntity = new HttpEntity<>(bookingQueryDto, headers);
-        RestExchangeInfo restExchangeInfo = RestExchangeInfo.builder()
-                .requestDescription("Call service: Search Bookings")
-                .url(gwMobileBaseUrl + searchBookings)
-                .httpMethod(HttpMethod.POST)
-                .requestBody(searchBookingHttpEntity)
-                .response(BookingDto1[].class)
-                .sleepTimeAfterRequestInSec(5)
-                .build();
-        return restTemplateUtils.makeExchange(restExchangeInfo, BackOfficeException.class);
-    }
+
     
     
     

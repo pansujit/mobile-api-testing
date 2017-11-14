@@ -1,15 +1,14 @@
 package com.pitechplus.rcim.backoffice.dto.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.pitechplus.rcim.backoffice.data.enums.Civility;
+import com.pitechplus.rcim.backoffice.data.enums.MaritalStatus;
+import com.pitechplus.rcim.backoffice.data.enums.ReviewStatus;
+import com.pitechplus.rcim.backoffice.data.enums.SexDto;
 import com.pitechplus.rcim.backoffice.dto.common.Address;
 import com.pitechplus.rcim.backoffice.dto.common.PhoneNumber;
 import com.pitechplus.rcim.backoffice.dto.supercompany.SuperCompanyDto;
-import com.pitechplus.rcim.nissan.be.nissandata.nissanenums.Civility;
-import com.pitechplus.rcim.nissan.be.nissandata.nissanenums.MaritalStatus;
-import com.pitechplus.rcim.nissan.be.nissandata.nissanenums.ReviewStatus;
-import com.pitechplus.rcim.nissan.be.nissandata.nissanenums.SexDto;
-import com.pitechplus.rcim.nissan.be.nissandto.groups.GroupMembershipViewDto;
-import com.pitechplus.rcim.nissan.be.nissandto.members.DrivingLicenceDto;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -63,6 +62,5 @@ public class MemberDto {
     MaritalStatus maritalStatus;
     String profession;
     String description;
-    GroupMembershipViewDto groupMembership;
     List<CommentResponseDto> comments;
 }

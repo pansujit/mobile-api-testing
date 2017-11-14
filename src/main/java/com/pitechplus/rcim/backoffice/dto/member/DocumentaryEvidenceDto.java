@@ -1,7 +1,8 @@
 package com.pitechplus.rcim.backoffice.dto.member;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.pitechplus.rcim.nissan.be.nissandata.nissanenums.ReviewStatus;
+import com.pitechplus.rcim.backoffice.data.enums.ReviewStatus;
+
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

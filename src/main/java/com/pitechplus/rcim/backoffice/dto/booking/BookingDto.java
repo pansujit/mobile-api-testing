@@ -8,8 +8,8 @@ import com.pitechplus.rcim.backoffice.dto.booking.filteredsearch.CarSharingInfoD
 import com.pitechplus.rcim.backoffice.dto.booking.filteredsearch.DateLocationDto;
 import com.pitechplus.rcim.backoffice.dto.booking.filteredsearch.RideSharingInfoDto;
 import com.pitechplus.rcim.backoffice.dto.booking.filteredsearch.ShuttleInfoDto;
+import com.pitechplus.rcim.backoffice.dto.member.MemberDto;
 import com.pitechplus.rcim.backoffice.dto.vehicle.VehicleDto;
-import com.pitechplus.rcim.nissan.be.nissandto.members.MemberDto;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 

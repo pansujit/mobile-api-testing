@@ -7,7 +7,6 @@ import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.pitechplus.rcim.backoffice.dto.common.Address;
 import com.pitechplus.rcim.backoffice.dto.common.PhoneNumber;
-import com.pitechplus.rcim.nissan.be.nissandto.members.DrivingLicenceDto;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

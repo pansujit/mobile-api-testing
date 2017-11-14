@@ -8,9 +8,9 @@ import com.pitechplus.rcim.backoffice.dto.booking.filteredsearch.CarSharingInfoD
 import com.pitechplus.rcim.backoffice.dto.booking.filteredsearch.DateLocationDto;
 import com.pitechplus.rcim.backoffice.dto.booking.filteredsearch.RideSharingInfoDto;
 import com.pitechplus.rcim.backoffice.dto.booking.filteredsearch.ShuttleInfoDto;
+import com.pitechplus.rcim.backoffice.dto.member.MemberDto;
 import com.pitechplus.rcim.backoffice.dto.vehicle.VehicleDto;
-import com.pitechplus.rcim.backoffice.dto.vehicle.VehicleDto1;
-import com.pitechplus.rcim.nissan.be.nissandto.members.MemberDto;
+import com.pitechplus.rcim.backoffice.dto.vehicle.VehicleDto;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -29,7 +29,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@EqualsAndHashCode(exclude = {"id", "functionalId"})
+@EqualsAndHashCode
 @JsonIgnoreProperties(ignoreUnknown = true)
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class StartBookingDto {
@@ -50,7 +50,7 @@ public class StartBookingDto {
   BookingState state;
   BookingStatusType status;
   BookingType type;
-  VehicleDto1 vehicle;
+  VehicleDto vehicle;
   List<BookingCustomValues> bookingCustomValues;
   
   

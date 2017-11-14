@@ -21,7 +21,7 @@ public class FileDto {
 
     UUID id;
     String content;
-    FileType fileType;
+    //FileType fileType;
     String mimeType;
     String name;
 }

@@ -6,25 +6,19 @@ import com.pitechplus.rcim.backoffice.data.enums.BookingStatusType;
 import com.pitechplus.rcim.backoffice.dto.booking.BookingCreateDto;
 import com.pitechplus.rcim.backoffice.dto.booking.BookingCustomValues;
 import com.pitechplus.rcim.backoffice.dto.booking.BookingDto;
-import com.pitechplus.rcim.backoffice.dto.booking.BookingDto1;
 import com.pitechplus.rcim.backoffice.dto.booking.StartBookingDto;
+import com.pitechplus.rcim.backoffice.dto.booking.feedback.FeedbackDto;
+import com.pitechplus.rcim.backoffice.dto.booking.search.BookingResultDto;
 import com.pitechplus.rcim.backoffice.utils.builders.DtoBuilders;
-import com.pitechplus.rcim.backoffice.utils.custommatchers.ExceptionMatcher;
-import com.pitechplus.rcim.backoffice.utils.exceptions.BackOfficeException;
-import com.pitechplus.rcim.backoffice.utils.mappers.ExceptionMapper;
+
 import com.rits.cloning.Cloner;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import java.util.UUID;
 
-import java.io.IOException;
-import java.util.List;
-
-import static com.pitechplus.rcim.backoffice.data.enums.ValidationError.*;
 import static com.pitechplus.rcim.backoffice.utils.builders.DtoBuilders.buildCreateBooking;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 
 /**
@@ -32,106 +26,100 @@ import static org.hamcrest.Matchers.is;
  */
 public class CreateBookingTests extends BackendAbstract {
 
-	protected static BookingCreateDto bookingCreateDto;
-	private BookingCreateDto bookingCreateDto1;
-	private Cloner cloningMachine;
-	private BookingCustomValues bookingCustomValues;
-	public static String bookingId= new String();
+	private  BookingCreateDto bookingCreateDto;
+	private BookingDto bookingDto;
+	//private BookingCustomValues bookingCustomValues;
+	public static String bookingId = new String();
+
 	@BeforeClass
 	public void prepareBookingCreate() {
-		System.out.println("first Test");
-		// the start time of booking has been modified to work 
-		bookingCreateDto = buildCreateBooking(rcimTestData.getMemberLoginEmail(),
-				rcimTestData.getMemberVehicleId(),  rcimTestData.getMemberAutomationParking());
-		StartBookingDto bookingDto = bookingService.createBooking1(rcimTestData.getMemberToken(), bookingCreateDto).getBody();
-		// cloningMachine = new Cloner();
-		// bookingCustomValues=BookingCustomValues.builder().companyCustomFieldId("cb0d1fb3-e112-4269-b291-53003c7e9089")
-		//.value("BookingText").build();
-		//bookingCreateDto1 = DtoBuilders.buildCreateBooking1(rcimTestData.getMemberDto().getLogin(),
-		//     rcimTestData.getAutomationVehicle(), rcimTestData.getAutomationParking(),bookingCustomValues);
+		// the start time of booking has been modified to work
+		bookingCreateDto = buildCreateBooking(rcimTestData.getMemberLoginEmail(), rcimTestData.getMemberVehicleId(),
+				rcimTestData.getMemberAutomationParking());
 
 	}
-	@Test(groups="Booking")
+
+	@Test(description = "This test verifies the creation of booking using mobile")
 	public void createBookingTest() {
-		StartBookingDto bookingDto = bookingService.createBooking1(rcimTestData.getMemberToken(), bookingCreateDto).getBody();
-		// bookingService.cancelBooking(rcimTestData.getMemberToken(), bookingDto.getId());
-		bookingId=bookingDto.getId();
-		Cloner cloner= new Cloner();
-		StartBookingDto cloningBookingDto=cloner.deepClone(bookingDto);
+		bookingDto = bookingService.createBooking1(rcimTestData.getMemberToken(), bookingCreateDto).getBody();
+		bookingId = bookingDto.getId().toString();
+		Cloner cloner = new Cloner();
+		BookingDto cloningBookingDto = cloner.deepClone(bookingDto);
 		cloningBookingDto.getVehicle().setId(bookingCreateDto.getVehicle().getId());
 		cloningBookingDto.getStart().setDate(bookingCreateDto.getStart().getDate());
 		cloningBookingDto.getEnd().setDate(bookingCreateDto.getEnd().getDate());
 		cloningBookingDto.setState(BookingState.UPCOMING);
 		cloningBookingDto.setStatus(BookingStatusType.SCHEDULED);
-		assertThat("Booking was not created correctly!", bookingDto,
-				is(cloningBookingDto));   
+		assertThat("Booking was not created correctly!", bookingDto, is(cloningBookingDto));
 	}
-	
-	
-	
 
-	
+	@Test(dependsOnMethods = "createBookingTest", description = "This test verifies that start the booking using mobile ")
+	public void startBookingTest() {
+		StartBookingDto bookingDto = bookingService
+				.startBooking(rcimTestData.getMemberToken(), CreateBookingTests.bookingId).getBody();
+		Cloner cloner = new Cloner();
+		StartBookingDto cloningBookingDto = cloner.deepClone(bookingDto);
+		cloningBookingDto.getVehicle().setId(bookingCreateDto.getVehicle().getId());
+		cloningBookingDto.getStart().setDate(bookingCreateDto.getStart().getDate());
+		cloningBookingDto.getEnd().setDate(bookingCreateDto.getEnd().getDate());
+		cloningBookingDto.setStatus(BookingStatusType.IN_PROGRESS);
+		cloningBookingDto.setState(BookingState.UPCOMING);
+		assertThat("Booking was not created correctly!", bookingDto, is(cloningBookingDto));
+	}
 
-	/*  @Test
-    public void createCustomBookingTest() {
-        BookingDto bookingDto = bookingService.createBooking(rcimTestData.getSuperAdminToken(), bookingCreateDto1).getBody();
-        bookingService.cancelBooking(rcimTestData.getSuperAdminToken(), bookingDto.getId());
-        bookingDto.getCarSharingInfo().setDelayed(false);
-        bookingCreateDto1.setBookingCustomValues(null);
-        assertThat("Booking was not created correctly!", bookingDto,
-                is(DtoBuilders.buildExpectedBooking(bookingCreateDto1, rcimTestData.getAutomationVehicle())));
-    }
+	@Test(dependsOnMethods = "startBookingTest", description = "This test verifies the lock the door of the "
+			+ "vehicle in in-progress booking")
+	public void lockDoorBookingTest() {
+		int lockDoor = bookingService.lockDoorBooking(rcimTestData.getMemberToken(), CreateBookingTests.bookingId);
+		assertThat("The response code for locking door is not in the range 200", lockDoor, is(204));
+	}
 
+	@Test(dependsOnMethods = "lockDoorBookingTest", description = "This test verifies the unlock the door of the "
+			+ "vehicle in in-progress booking")
+	public void unlockDoorBookingTest() {
+		int unlockDoor = bookingService.unlockDoorBooking(rcimTestData.getMemberToken(), CreateBookingTests.bookingId);
+		assertThat("The response code for locking door is not in the range 200", unlockDoor, is(204));
+	}
 
+	@Test(dependsOnMethods = { "startBookingTest", "unlockDoorBookingTest" }, description = "This test verifies"
+			+ "adding feedback in the current in-progress booking")
+	public void feedbackBookingTest() {
+		String fileId = configsService.mobileCreateFile(rcimTestData.getMemberToken(), DtoBuilders.buildFile())
+				.getBody().getId().toString();
+		FeedbackDto x = DtoBuilders.bookingFeedback(fileId);
+		FeedbackDto ResultFeedback = bookingService
+				.feedbackBooking(rcimTestData.getMemberToken(), UUID.fromString(bookingId), x).getBody();
+		assertThat("The booking doesnot registered the correct feedback", ResultFeedback, is(x));
+	}
 
+	@Test(dependsOnMethods = "feedbackBookingTest", description = "This test verifies the finishe booking using mobile")
+	public void FinishBookingTest() {
+		BookingDto finishingBookingResult = bookingService
+				.finishBooking(rcimTestData.getMemberToken(), UUID.fromString(bookingId), DtoBuilders.finishBooking())
+				.getBody();
+		assertThat("The state of the finished booking is not changed", finishingBookingResult.getState(),
+				is(BookingState.PAST));
+		assertThat("The status of the finished booking is not changed", finishingBookingResult.getStatus(),
+				is(BookingStatusType.COMPLETED));
+	}
 
-   @Test(description = "This test verifies that request create booking with invalid X-AUTH-TOKEN triggers correct error " +
-            "response from server.")
-    @TestInfo(expectedResult = "Server responds with 401 Unauthorized with message: " + ErrorMessages.INVALID_AUTHENTICATION_TOKEN)
-    public void invalidTokenTest() throws IOException {
-        try {
-            bookingService.createBooking(rcimTestData.getSuperAdminToken() + "INVALID", bookingCreateDto);
-            Assert.fail("Create Booking worked with invalid X-AUTH-TOKEN!");
-        } catch (HttpStatusCodeException exception) {
-            //verify that error received from server is the correct one
-            assertThat("Server did not throw correct error!", ExceptionMapper.mapException(exception, BackOfficeException.class),
-                    ExceptionMatcher.isExpectedBackOfficeException(HttpStatus.UNAUTHORIZED, ErrorMessages.INVALID_AUTHENTICATION_TOKEN,
-                            null, null));
-        }
-    }
+	@Test(dependsOnMethods = "createBookingTest", description = "This test verifies that thelist of member's booking")
+	public void GetAllBookingsOfMemberTest() throws InterruptedException {
 
-    @Test(description = "This test verifies that request to create booking with missing mandatory fields triggers correct error " +
-            "response from server.")
-    @TestInfo(expectedResult = "Server responds with 400 Bad Request with validationErrors for fields type, start and reserved seats.")
-    public void missingMandatoryFieldsTest() throws IOException {
-        try {
-            bookingService.createBooking(rcimTestData.getSuperAdminToken(), new BookingCreateDto());
-            Assert.fail("Create Booking worked with missing mandatory fields!");
-        } catch (HttpStatusCodeException exception) {
-            //verify that error received from server is the correct one
-            assertThat("Server did not throw correct error!", ExceptionMapper.mapException(exception, BackOfficeException.class),
-                    ExceptionMatcher.isExpectedBackOfficeException(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                            null, ValidationErrorsBuilder.buildValidationErrors(ServiceCalled.BOOKING_CREATE, TYPE_MAY_NOT_BE_NULL,
-                                    START_MAY_NOT_BE_NULL, RESERVED_SEATS_MAY_NOT_BE_NULL)));
-        }
-    }
+		BookingResultDto y = bookingService
+				.memberBooking(rcimTestData.getMemberToken(), rcimTestData.getMemberId(), 1, 200, "ASC").getBody();
+		Thread.sleep(5000);
+		assertThat("The booking is not in the list", y.getResults(), hasItem(bookingDto));
+	}
 
-    @Test(description = "This test verifies that request to create booking with invalid member login triggers correct error " +
-            "response from server.")
-    @TestInfo(expectedResult = "Server responds with 400 Bad Request with developerMessage: No member found for email: {invalidEmail}")
-    public void invalidMemberLoginTest() throws IOException {
-        BookingCreateDto invalidMemberLogin = cloningMachine.deepClone(bookingCreateDto);
-        invalidMemberLogin.setMemberLogin(bookingCreateDto.getMemberLogin() + "INVALID");
-        try {
-            bookingService.createBooking(rcimTestData.getSuperAdminToken(), invalidMemberLogin);
-            Assert.fail("Create Booking worked with invalid X-AUTH-TOKEN!");
-        } catch (HttpStatusCodeException exception) {
-            //verify that error received from server is the correct one
-            assertThat("Server did not throw correct error!", ExceptionMapper.mapException(exception, BackOfficeException.class),
-                    ExceptionMatcher.isExpectedBackOfficeException(HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.getReasonPhrase(),
-                            "No member found for email: " + invalidMemberLogin.getMemberLogin(), null));
-        }
-    }*/
+	@Test(dependsOnMethods = "createBookingTest", description = "This test verifies that thelist of member's booking")
+	public void memberFilterBooking() {
+		BookingResultDto x = bookingService.memberFilterBooking(rcimTestData.getMemberToken(),
+				rcimTestData.getMemberId(), DtoBuilders.MemberBookingSearchFilter(rcimTestData.getMemberId()))
+				.getBody();
 
+		assertThat("The booking newly created booking is not listed", x.getResults(), hasItem(bookingDto));
+
+	}
 
 }
